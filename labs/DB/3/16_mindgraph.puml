@@ -1,0 +1,36 @@
+@startuml 16
+!theme plain
+skinparam rectangle {
+    BackgroundColor #F0F8FF
+    BorderColor #4682B4
+}
+skinparam arrow {
+    Color #4682B4
+}
+
+title 中转换乘方案查询思路
+
+rectangle "武汉出发子查询" as Wuhan {
+    :筛选武汉站出发车次;
+    :获取车次、出发站、出发时间;
+    :获取中转站及到达时间;
+    :确保出发站在武汉且中转站在其后;
+}
+
+rectangle "大理到达子查询" as Dali {
+    :筛选到达大理站车次;
+    :获取中转站及出发时间;
+    :获取目的站及到达时间;
+    :确保中转站在大理站之前;
+}
+
+rectangle "合并与过滤" as Merge {
+    :通过中转站关联两子查询;
+    :检查中转时间衔接;
+    :过滤当日换乘方案;
+    :按车次排序输出结果;
+}
+
+Wuhan --> Merge : 提供出发信息
+Dali --> Merge : 提供到达信息
+@enduml
